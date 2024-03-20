@@ -1,0 +1,36 @@
+metrics: list(include('metric_data'))
+
+defaultConfig: include('config')
+
+proxyConfig: include('proxy', required=False)
+
+stats:
+  endpoint: include('endpointConfig')
+  auth: include('authConfig')
+
+
+metric_data:
+  name: str()
+  alias: str()
+  aggregationType: enum('OBSERVATION', 'AVERAGE', 'SUM')
+  timeRollUpType: enum('AVERAGE', 'SUM', 'CURRENT')
+  clusterRollUpType: enum('INDIVIDUAL', 'COLLECTIVE')
+
+config:
+  api_timeout: num()
+  wait_time: num()
+
+proxy:
+  enabled: bool()
+  host: str()
+  port: num()
+  username: str(required=False)
+  password: str(required=False)
+
+authConfig:
+  user: str()
+  pass: str()
+
+endpointConfig:
+  hostname: str()
+  port: num()
