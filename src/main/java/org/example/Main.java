@@ -31,7 +31,6 @@ public class Main {
     private static final Logger log = Logger.getLogger("sample_log");
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello world!");
 
 
         Logging.setupLogger();
@@ -100,31 +99,22 @@ public class Main {
     public static Map<String, Object> loadAppConfig() throws ProcessingException {
         try {
             Yaml yaml = new Yaml();
-            String pathConfig = "/Users/aodbierz/Documents/projectsIJ/extensionJavaMTN/src/main/java/org/example/config.yaml";
-            String pathScheam = "/Users/aodbierz/Documents/projectsIJ/extensionJavaMTN/src/main/java/org/example/schema.yaml";
+            String pathConfig = "<path to config yaml>";
+            String pathScheam = "<path to schema yaml>";
             FileInputStream inputConf = new FileInputStream(pathConfig);
             FileInputStream inputSchema = new FileInputStream(pathScheam);
             //String yamlStr = inputYaml.toString();
             Map<String, Object> config = yaml.load(inputConf);
             Map<String, Object> schemaYaml = yaml.load(inputSchema);
-            //Map
-            //inputStream.close(); // Close the input stream
+            
             ObjectMapper mapper = new ObjectMapper();
             // Validate the configuration against the schema
             JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
             JsonNode schemaParse = mapper.convertValue(schemaYaml, JsonNode.class);
-            JsonSchema schema = factory.getJsonSchema(schemaParse);
-            //schema.toString();
-
-            //JsonNode schemaParse = mapper.convertValue(schema, JsonNode.class);
+            JsonSchema schema = factory.getJsonSchema(schemaParse);           
             JsonNode configParse = mapper.convertValue(config, JsonNode.class);
-
-
-
-            // JsonNode schemaPares = mapper.convertValue(schema, JsonNode.class);
             ProcessingReport report = schema.validate(configParse);
-            //FileInputStream inputJson = new FileInputStream("./schema.json");
-            //JSONObject schema = new JSONObject(inputJson);
+            
 
 
             if (report.isSuccess()) {
@@ -156,7 +146,6 @@ public class Main {
             httpGet.setHeader("Accept", "application/json");
             String basicAuthHeader = "Basic " + java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
             httpGet.setHeader("Authorization", basicAuthHeader);
-            //httpGet.setEntity(new StringEntity(""));
 
             try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
                 int statusCode = response.getStatusLine().getStatusCode();
